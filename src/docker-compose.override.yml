@@ -30,6 +30,15 @@ services:
     restart: always
     ports:
       - "6379:6379" 
+  
+  orderdb:
+    container_name: orderdb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=ABCD@2cba
+    restart: always
+    ports:
+     - "1434:1433"
 
   catalog.api:
     environment:
@@ -53,7 +62,7 @@ services:
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=BasketDb;User Id=postgres;Password=postgres;Include Error Detail=true 
       - ConnectionStrings__Redis=distributedcache:6379
-      - GrpcSettings__DiscountUrl=https://discount.grpc:8081
+      - GrpcSettings__DiscountUrl=http://discount.grpc:8080
     depends_on:
       - basketdb
       - distributedcache
@@ -63,7 +72,7 @@ services:
       - "6061:8081"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro 
 
   discount.grpc:
     environment:
