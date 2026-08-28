@@ -17,7 +17,7 @@ var sqlServer = builder.AddSqlServer("sqlserver");
 var orderDb = sqlServer.AddDatabase("OrderDb");
 
 // 2. Microservice
-var discountGerpc = builder.AddProject<Projects.Discount_gRPC>("discount-grpc");
+var discountGrpc = builder.AddProject<Projects.Discount_gRPC>("discount-grpc");
 
 var catalogApi = builder.AddProject<Projects.Catalog_API>("catalog-api")
     .WithReference(calalogDb, connectionName: "Database");
@@ -25,7 +25,7 @@ var catalogApi = builder.AddProject<Projects.Catalog_API>("catalog-api")
 var basketApi = builder.AddProject<Projects.Basket_API>("basket-api")
     .WithReference(basketDb, connectionName: "Database")
     .WithReference(redis, connectionName: "Redis")
-    .WithReference(discountGerpc)
+    .WithReference(discountGrpc)
     .WithReference(rabbitmq);
 
 var orderingApi = builder.AddProject<Projects.Ordering_API>("ordering-api")
