@@ -55,6 +55,8 @@ builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Database")!)
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
 
+builder.AddServiceDefaults();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
@@ -70,5 +72,7 @@ app.UseHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
+
+app.MapDefaultEndpoints();
 
 app.Run();

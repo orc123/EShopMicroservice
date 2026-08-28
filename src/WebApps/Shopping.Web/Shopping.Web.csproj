@@ -14,4 +14,8 @@
     <PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Aspire\EShop.AppHost\eShop.AppHost\eShop.AppHost.ServiceDefaults\eShop.AppHost.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>

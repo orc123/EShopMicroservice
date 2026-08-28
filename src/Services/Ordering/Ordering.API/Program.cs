@@ -12,6 +12,8 @@ builder.Services
     .AddInfrastructureServices(builder.Configuration)
     .AddApiServices(builder.Configuration);
 
+builder.AddServiceDefaults();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
@@ -22,5 +24,7 @@ if (app.Environment.IsDevelopment())
 {
     await app.InitialiseDatabaseAsync();
 }
+
+app.MapDefaultEndpoints();
 
 app.Run();

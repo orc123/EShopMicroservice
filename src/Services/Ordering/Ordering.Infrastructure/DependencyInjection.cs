@@ -2,8 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ordering.Application.Data;
+using RabbitMQ.Client;
 
 namespace Ordering.Infrastructure;
+
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices
@@ -16,7 +18,13 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetService<ISaveChangesInterceptor>());
-            options.UseSqlServer(connectionString);
+            options.UseSqlServer(connectionString, options =>
+            {
+              options.EnableRetryOnFailure(
+                  maxRetryCount: 5,                       // Số lần thử lại tối đa
+                  maxRetryDelay: TimeSpan.FromSeconds(10), // Khoảng thời gian chờ giữa các lần thử
+                  errorNumbersToAdd: null);
+            });
         });
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
